@@ -15,7 +15,7 @@ return (
 </div>
 <div className="flex justify-center md:justify-end">
 <div className="w-64 h-64 rounded-2xl bg-white shadow-lg flex items-center justify-center overflow-hidden">
-<img src="https://drive.google.com/file/d/16FZo3VgSWt5ye4vIhNnJLiXhx-Jq-HKC/view?usp=sharing" alt="profile" className="object-cover w-full h-full" />
+<img src="https://res.cloudinary.com/dlfiyfch6/image/upload/v1763218099/profile_nihyug.jpg" alt="profile" className="object-cover w-full h-full" />
 </div>
 </div>
 </section>
