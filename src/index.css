@@ -1,1 +1,17 @@
 @import "tailwindcss";
+/* ===== Glass Card Utility ===== */
+.glass-card {
+    @apply bg-white/15 backdrop-blur-xl border border-white/20 rounded-3xl;
+    /* box-shadow:
+      0 0 20px rgba(255, 255, 255, 0.15),
+      0 0 60px rgba(255, 255, 255, 0.08); */
+   
+  }
+  
+  .glass-card:hover,
+  .glass-card:active {
+    box-shadow:
+      0 0 30px rgba(255, 255, 255, 0.25),
+      0 0 90px rgba(255, 255, 255, 0.15);
+  }
+  
