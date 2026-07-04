@@ -1,17 +1,27 @@
-# React + Vite
+# Nirupam Chakraborty — Portfolio
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A single-page React portfolio built with Vite, Framer Motion, and a hand-rolled
+orange/black "editorial" design system.
 
-Currently, two official plugins are available:
+## Stack
+- React 19 + Vite
+- Framer Motion (scroll/entrance animations)
+- Live data: GitHub REST API + a public LeetCode stats API (see `src/App.jsx`,
+  `GITHUB_USERNAME` / `LEETCODE_USERNAME` constants)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Structure
+Everything — layout, styles, and page data (experience, projects, skills) —
+lives in `src/App.jsx`, which is the actual component rendered by
+`src/main.jsx`. The files under `src/components/` and `src/data/` are legacy
+scaffolding kept for reference; they are not imported anywhere.
 
-## React Compiler
+## Run locally
+```bash
+npm install
+npm run dev
+```
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
-
+## Build
+```bash
+npm run build
+```
