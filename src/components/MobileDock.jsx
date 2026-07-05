@@ -1,12 +1,13 @@
 import { motion } from "framer-motion";
 import { NavLink } from "react-router-dom";
-import { FiHome, FiUser, FiCode, FiZap, FiMail } from "react-icons/fi";
+import { FiHome, FiUser, FiBriefcase, FiCode, FiZap, FiMail } from "react-icons/fi";
 import ThemeToggle from "./ThemeToggle";
 
 const ITEMS = [
   { path: "/", Icon: FiHome, l: "Home", end: true },
   { path: "/about", Icon: FiUser, l: "About" },
-  { path: "/projects", Icon: FiCode, l: "Work" },
+  { path: "/experience", Icon: FiBriefcase, l: "Work" },
+  { path: "/projects", Icon: FiCode, l: "Projects" },
   { path: "/skills", Icon: FiZap, l: "Skills" },
   { path: "/contact", Icon: FiMail, l: "Contact" },
 ];

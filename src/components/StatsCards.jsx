@@ -197,7 +197,7 @@ export function LeetcodeStatsCard({ theme }) {
       {state.status === "loading" && <div className="stats-loading">Fetching live data…</div>}
       {state.status === "error" && (
         <div className="stats-error">
-          DATA
+          Live stats unavailable — set LEETCODE_USERNAME in the code to your real handle.
         </div>
       )}
       {state.status === "ready" && (
