@@ -5,10 +5,18 @@ function StackCard({ item, index, total, progress }) {
   const reduced = useReducedMotion();
   const scale = useTransform(progress, [index / total, 1], [1, 1 - (total - index - 1) * 0.025]);
 
+  const number = String(index + 1).padStart(2, "0");
+
   return (
     <div className="stack-slot" style={{ "--offset": `${index * 12}px` }}>
-      <motion.article className="stack-card spot" style={{ "--hue": item.hue, ...(reduced ? {} : { scale }) }}>
-        <p className="eyebrow">{item.label}</p>
+      <motion.article
+        className="stack-card spot"
+        data-index={number}
+        style={reduced ? undefined : { scale }}
+      >
+        <p className="eyebrow">
+          {number} / {item.label}
+        </p>
         <h3>{item.title}</h3>
         <p>{item.text}</p>
       </motion.article>

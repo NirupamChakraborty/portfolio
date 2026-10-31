@@ -48,7 +48,7 @@ export default function About() {
 
   return (
     <div className="container page">
-      <PageHeader eyebrow="About" title="Backend developer, from Assam.">
+      <PageHeader eyebrow="About" title="Engineer. Petrolhead.">
         I'm a backend software developer at {SITE.company}, and a 2026 Computer Science graduate of Jorhat
         Engineering College.
       </PageHeader>

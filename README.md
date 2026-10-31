@@ -1,7 +1,8 @@
 # Nirupam Chakraborty — Portfolio
 
-A multi-page React portfolio with a restrained, product-page design: system
-typography, generous space, and motion that responds to scrolling.
+A multi-page React portfolio with a luxury automotive and terminal design:
+carbon black, one racing red, instrument-style telemetry driven by scrolling,
+and a keyboard command menu (Cmd/Ctrl + K).
 
 **Live site:** https://portfolio-beta-one-82.vercel.app
 
@@ -9,7 +10,7 @@ typography, generous space, and motion that responds to scrolling.
 - **React 19 + Vite** — app shell and build tooling
 - **React Router DOM (v7)** — real routes (`/about`, `/projects/:slug`, etc.)
 - **Framer Motion** — scroll-linked animation and transitions
-- **Inter Variable** — self-hosted fallback for devices without San Francisco
+- **Archivo, JetBrains Mono, Inter** — self-hosted variable fonts
 - **Live data** — GitHub REST API, rendered on the `/stats` page
 
 ## Structure
@@ -28,8 +29,8 @@ src/
 
 ### Theming
 Colours are CSS custom properties defined once at the top of `index.css`. The
-theme follows the visitor's system setting until they choose one with the
-toggle; a small script in `index.html` applies it before first paint.
+site opens in the dark theme until a visitor picks one with the toggle; a
+small script in `index.html` applies it before first paint.
 
 ### Motion
 Every animation shares the curve and spring in `src/lib/motion.js`. All
@@ -49,6 +50,6 @@ npm run build
 ## Notes
 - Update `GITHUB_USERNAME` in `src/data/siteConfig.js` if the handle changes.
 - Project entries live in `src/data/projects.js` — each needs a unique `slug`
-  (used for the `/projects/:slug` route), a `hue` for its glow, and a `shot`
-  screenshot in `public/projects/`.
+  (used for the `/projects/:slug` route) and a `shot` screenshot in
+  `public/projects/`.
 - `vercel.json` sends every route to `index.html`, so deep links work.

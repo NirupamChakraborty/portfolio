@@ -19,7 +19,7 @@ export default function Footer() {
           </a>
         </nav>
         <p>
-          © {new Date().getFullYear()} {SITE.name}
+          © {new Date().getFullYear()} {SITE.name} <span className="footer-status">● all systems nominal</span>
         </p>
       </div>
     </footer>

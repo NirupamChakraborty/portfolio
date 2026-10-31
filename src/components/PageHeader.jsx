@@ -12,7 +12,7 @@ export default function PageHeader({ eyebrow, title, children }) {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 1, ease: EASE, delay: 0.05 }}
     >
-      <p className="eyebrow">{eyebrow}</p>
+      <p className="eyebrow">// {eyebrow.toLowerCase()}</p>
       <h1 className="page-title">{title}</h1>
       {children && <p className="page-lead">{children}</p>}
     </motion.header>

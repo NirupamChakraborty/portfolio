@@ -42,25 +42,21 @@ export const currentWork = [
     label: "Access control",
     title: "A ReBAC engine for fine-grained permissions.",
     text: "Relationship-aware role and permission management across the platform, built with Python, FastAPI and PostgreSQL on Firebase authentication.",
-    hue: 212,
   },
   {
     label: "Backend services",
     title: "Project Hub, with a full audit trail.",
     text: "Backend services in Python and FastAPI, with audit logging that records user and system actions for traceability and accountability.",
-    hue: 265,
   },
   {
     label: "Delivery",
     title: "CI/CD for 15+ services.",
     text: "GitHub Actions pipelines that automate build, test, Docker containerization and deployment to GCP Cloud Run.",
-    hue: 170,
   },
   {
     label: "Infrastructure",
     title: "Multi-region GCP, defined in Terraform.",
     text: "Development, staging and production environments, with keyless deployments through Workload Identity Federation.",
-    hue: 25,
   },
 ];
 

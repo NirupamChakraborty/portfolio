@@ -5,7 +5,7 @@ import { skillGroups } from "../data/skills";
 export default function Skills() {
   return (
     <div className="container page">
-      <PageHeader eyebrow="Skills" title="What I work with." />
+      <PageHeader eyebrow="Skills" title="Full spec." />
       <div className="skill-rows">
         {skillGroups.map((g) => (
           <Reveal key={g.category} className="skill-row">

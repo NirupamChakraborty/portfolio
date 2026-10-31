@@ -1,79 +1,71 @@
-import { motion, useMotionTemplate, useMotionValue, useReducedMotion, useScroll, useSpring, useTransform } from "framer-motion";
+import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import { Link } from "react-router-dom";
 import { FiArrowRight, FiArrowDown } from "react-icons/fi";
 import CountUp from "../components/CountUp";
-import Magnetic from "../components/Magnetic";
 import LetterReveal from "../components/LetterReveal";
+import LightBar from "../components/LightBar";
+import Magnetic from "../components/Magnetic";
 import PortraitZoom from "../components/PortraitZoom";
 import Reveal from "../components/Reveal";
 import ScrollText from "../components/ScrollText";
 import Showcase from "../components/Showcase";
 import StackCards from "../components/StackCards";
+import Tachometer from "../components/Tachometer";
+import TerminalLine from "../components/TerminalLine";
 import { currentWork } from "../data/experiences";
 import { projects } from "../data/projects";
 import { SITE } from "../data/siteConfig";
 import { EASE } from "../lib/motion";
 import usePageTitle from "../lib/usePageTitle";
 
-const STATS = [
-  { value: 15, suffix: "+", label: "services shipping through automated CI/CD" },
-  { value: 3, label: "cloud environments provisioned with Terraform" },
-  { value: 60, suffix: "%", label: "faster page loads after a React migration" },
-  { value: 30, suffix: "+", label: "active users on QuickAI, my AI SaaS platform" },
+const FIGURES = [
+  { value: 15, suffix: "+", unit: "services", label: "Shipping through automated CI/CD" },
+  { value: 3, unit: "environments", label: "Provisioned with Terraform" },
+  { value: 60, suffix: "%", unit: "faster", label: "Page loads after a React migration" },
+  { value: 30, suffix: "+", unit: "users", label: "Active on QuickAI, my AI SaaS" },
 ];
 
 const rise = (delay) => ({
-  initial: { opacity: 0, y: 28, filter: "blur(6px)" },
-  animate: { opacity: 1, y: 0, filter: "blur(0px)" },
-  transition: { duration: 1.2, ease: EASE, delay },
+  initial: { opacity: 0, y: 24 },
+  animate: { opacity: 1, y: 0 },
+  transition: { duration: 1, ease: EASE, delay },
 });
 
 function Hero() {
   const ref = useRef(null);
   const reduced = useReducedMotion();
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
-  const scale = useTransform(scrollYProgress, [0, 0.6], [1, 0.9]);
+  const scale = useTransform(scrollYProgress, [0, 0.6], [1, 0.94]);
   const opacity = useTransform(scrollYProgress, [0, 0.55], [1, 0]);
 
-  const pointerX = useSpring(useMotionValue(0), { stiffness: 60, damping: 20 });
-  const pointerY = useSpring(useMotionValue(0), { stiffness: 60, damping: 20 });
-  const orb = useMotionTemplate`radial-gradient(420px circle at ${pointerX}px ${pointerY}px, rgba(120, 110, 255, 0.2), transparent 70%)`;
-
-  const onPointerMove = (e) => {
-    pointerX.set(e.clientX);
-    pointerY.set(e.clientY);
-  };
-
   return (
-    <section ref={ref} className="hero" onPointerMove={onPointerMove}>
+    <section ref={ref} className="hero">
       <div className="hero-pin">
-        <motion.div className="hero-glow" aria-hidden="true" style={reduced ? undefined : { opacity }} />
-        <motion.div className="hero-orb" aria-hidden="true" style={{ background: orb }} />
-        <motion.div className="edge-wrap" aria-hidden="true" style={reduced ? undefined : { opacity }}>
-          <div className="edge-fade">
-            <div className="edge-glow" />
+        <motion.div className="container hero-grid" style={reduced ? undefined : { scale, opacity }}>
+          <div className="hero-copy">
+            <TerminalLine prompt="nirupam@riskgrid:~$" command="./ignition --mode=sport" delay={300} />
+            <LetterReveal text={SITE.name} delay={0.9} />
+            <motion.p className="hero-lead" {...rise(1.5)}>
+              {SITE.role} at {SITE.company}. I engineer access control, backend services and cloud infrastructure, built
+              to hold up at full throttle.
+            </motion.p>
+            <motion.div className="actions" {...rise(1.65)}>
+              <Magnetic>
+                <Link to="/projects" className="btn btn-primary">
+                  View the garage
+                </Link>
+              </Magnetic>
+              <a href={SITE.resume} target="_blank" rel="noreferrer" className="btn-text">
+                Resume <FiArrowDown />
+              </a>
+            </motion.div>
           </div>
-        </motion.div>
-        <motion.div className="container hero-copy" style={reduced ? undefined : { scale, opacity }}>
-          <motion.p className="eyebrow" {...rise(0.1)}>
-            {SITE.role} at {SITE.company}
-          </motion.p>
-          <LetterReveal text={SITE.name} delay={0.2} />
-          <motion.p className="hero-lead" {...rise(0.9)}>
-            I build the access control, backend services and cloud infrastructure that products depend on.
-          </motion.p>
-          <motion.div className="actions" {...rise(1.05)}>
-            <Magnetic>
-              <Link to="/projects" className="btn btn-primary">
-                View my work
-              </Link>
-            </Magnetic>
-            <a href={SITE.resume} target="_blank" rel="noreferrer" className="btn-text">
-              Resume <FiArrowDown />
-            </a>
+          <motion.div {...rise(0.3)}>
+            <Tachometer progress={scrollYProgress} />
           </motion.div>
         </motion.div>
+        <LightBar />
       </div>
     </section>
   );
@@ -86,10 +78,11 @@ export default function Home() {
     <>
       <Hero />
 
-      <PortraitZoom>From Assam, shipping to production.</PortraitZoom>
+      <PortraitZoom>Off the clock: anything with an engine.</PortraitZoom>
 
       <section className="section">
         <div className="container">
+          <p className="eyebrow">// under the hood</p>
           <ScrollText text="Most of my work is the part of a product people never see: who can access what, what gets recorded, and how code reaches production safely." />
         </div>
       </section>
@@ -97,8 +90,8 @@ export default function Home() {
       <section className="section">
         <div className="container">
           <Reveal className="section-head">
-            <p className="eyebrow">Now at {SITE.company}</p>
-            <h2>What I'm building.</h2>
+            <p className="eyebrow">// now at {SITE.company}</p>
+            <h2>The build sheet.</h2>
           </Reveal>
           <StackCards items={currentWork} />
         </div>
@@ -107,16 +100,17 @@ export default function Home() {
       <section className="section">
         <div className="container">
           <Reveal className="section-head">
-            <p className="eyebrow">Impact</p>
-            <h2>By the numbers.</h2>
+            <p className="eyebrow">// measured, not claimed</p>
+            <h2>Performance figures.</h2>
           </Reveal>
-          <div className="stat-grid">
-            {STATS.map((s, i) => (
-              <Reveal key={s.label} className="stat spot" delay={i * 0.08}>
+          <div className="figures">
+            {FIGURES.map((f, i) => (
+              <Reveal key={f.label} className="figure spot" delay={i * 0.08}>
                 <p className="stat-value">
-                  <CountUp value={s.value} suffix={s.suffix} />
+                  <CountUp value={f.value} suffix={f.suffix} />
+                  <small>{f.unit}</small>
                 </p>
-                <p className="stat-label">{s.label}</p>
+                <p className="stat-label">{f.label}</p>
               </Reveal>
             ))}
           </div>
@@ -127,7 +121,7 @@ export default function Home() {
         <div className="container">
           <Reveal className="section-head section-head-row">
             <div>
-              <p className="eyebrow">Selected work</p>
+              <p className="eyebrow">// the garage</p>
               <h2>Things I've built.</h2>
             </div>
             <Link to="/projects" className="btn-text">
@@ -142,6 +136,7 @@ export default function Home() {
 
       <section className="section closing">
         <Reveal className="container">
+          <p className="eyebrow">// pit lane open</p>
           <h2 className="shine">Let's talk.</h2>
           <p className="page-lead">Have a project, a question, or an idea worth building? I'd like to hear about it.</p>
           <div className="actions">

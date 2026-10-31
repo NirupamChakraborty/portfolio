@@ -11,7 +11,7 @@ export default function Experience() {
 
   return (
     <div className="container page">
-      <PageHeader eyebrow="Work" title="Where I've worked." />
+      <PageHeader eyebrow="Work" title="Track record." />
 
       <div ref={ref} className="timeline">
         <div className="timeline-rail" aria-hidden="true">

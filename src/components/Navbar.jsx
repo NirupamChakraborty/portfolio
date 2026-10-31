@@ -5,7 +5,7 @@ import { navItems } from "../data/siteConfig";
 import { EASE, SPRING } from "../lib/motion";
 import ThemeToggle from "./ThemeToggle";
 
-export default function Navbar({ theme, onToggleTheme }) {
+export default function Navbar({ theme, onToggleTheme, onOpenPalette }) {
   const { scrollY } = useScroll();
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
@@ -29,7 +29,7 @@ export default function Navbar({ theme, onToggleTheme }) {
     <header className={`nav${scrolled || open ? " is-solid" : ""}`}>
       <div className="container nav-inner">
         <Link to="/" className="nav-logo" onClick={close}>
-          Nirupam Chakraborty
+          NC<span>_</span>
         </Link>
 
         <nav className="nav-links" aria-label="Primary">
@@ -46,6 +46,9 @@ export default function Navbar({ theme, onToggleTheme }) {
         </nav>
 
         <div className="nav-actions">
+          <button type="button" className="palette-btn" onClick={onOpenPalette} aria-label="Open command menu">
+            <kbd>⌘K</kbd>
+          </button>
           <ThemeToggle theme={theme} onToggle={onToggleTheme} />
           <button
             type="button"

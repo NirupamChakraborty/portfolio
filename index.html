@@ -4,8 +4,7 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff" />
-    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000000" />
+    <meta name="theme-color" content="#0a0a0b" />
     <meta name="description" content="Nirupam Chakraborty — backend software developer at RiskGrid AI, building access control, backend services and cloud infrastructure." />
     <meta property="og:title" content="Nirupam Chakraborty · Software Developer" />
     <meta property="og:description" content="Backend software developer building access control, backend services and cloud infrastructure." />
@@ -22,8 +21,7 @@
         try {
           saved = localStorage.getItem("portfolio-theme");
         } catch (e) {}
-        var dark = matchMedia("(prefers-color-scheme: dark)").matches;
-        document.documentElement.dataset.theme = saved || (dark ? "dark" : "light");
+        document.documentElement.dataset.theme = saved || "dark";
       })();
     </script>
   </head>

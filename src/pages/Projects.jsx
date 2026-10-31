@@ -5,7 +5,7 @@ import { projects } from "../data/projects";
 export default function Projects() {
   return (
     <div className="container page">
-      <PageHeader eyebrow="Projects" title="Things I've built." />
+      <PageHeader eyebrow="Projects" title="The garage." />
       {projects.map((p) => (
         <Showcase key={p.slug} project={p} />
       ))}

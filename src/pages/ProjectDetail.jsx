@@ -36,7 +36,6 @@ export default function ProjectDetail() {
 
       <motion.div
         className="detail-device"
-        style={{ "--hue": project.hue }}
         initial={{ opacity: 0, scale: 0.94 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 1.2, ease: EASE, delay: 0.1 }}

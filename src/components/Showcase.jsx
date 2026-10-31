@@ -49,7 +49,7 @@ export default function Showcase({ project }) {
   };
 
   return (
-    <article className="showcase" style={{ "--hue": project.hue }}>
+    <article className="showcase">
       <div ref={ref} className="showcase-stage">
         <motion.div className="showcase-bloom" aria-hidden="true" style={reduced ? undefined : { opacity: bloom }} />
         <motion.div className="showcase-device" style={reduced ? undefined : { rotateX, scale }}>
@@ -69,6 +69,11 @@ export default function Showcase({ project }) {
           <p className="eyebrow">{project.tags.slice(0, 3).join(" · ")}</p>
           <h3>{project.title}</h3>
           <p className="showcase-desc">{project.desc}</p>
+          <ul className="spec-tags">
+            {project.stack.slice(0, 5).map((t) => (
+              <li key={t}>{t}</li>
+            ))}
+          </ul>
           <Link to={`/projects/${project.slug}`} viewTransition className="btn-text">
             See the project <FiArrowRight />
           </Link>
