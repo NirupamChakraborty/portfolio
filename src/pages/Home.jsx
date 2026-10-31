@@ -3,6 +3,7 @@ import { useRef } from "react";
 import { Link } from "react-router-dom";
 import { FiArrowRight, FiArrowDown } from "react-icons/fi";
 import CountUp from "../components/CountUp";
+import Magnetic from "../components/Magnetic";
 import LetterReveal from "../components/LetterReveal";
 import PortraitZoom from "../components/PortraitZoom";
 import Reveal from "../components/Reveal";
@@ -13,6 +14,7 @@ import { currentWork } from "../data/experiences";
 import { projects } from "../data/projects";
 import { SITE } from "../data/siteConfig";
 import { EASE } from "../lib/motion";
+import usePageTitle from "../lib/usePageTitle";
 
 const STATS = [
   { value: 15, suffix: "+", label: "services shipping through automated CI/CD" },
@@ -62,9 +64,11 @@ function Hero() {
             I build the access control, backend services and cloud infrastructure that products depend on.
           </motion.p>
           <motion.div className="actions" {...rise(1.05)}>
-            <Link to="/projects" className="btn btn-primary">
-              View my work
-            </Link>
+            <Magnetic>
+              <Link to="/projects" className="btn btn-primary">
+                View my work
+              </Link>
+            </Magnetic>
             <a href={SITE.resume} target="_blank" rel="noreferrer" className="btn-text">
               Resume <FiArrowDown />
             </a>
@@ -76,6 +80,8 @@ function Hero() {
 }
 
 export default function Home() {
+  usePageTitle();
+
   return (
     <>
       <Hero />
@@ -139,9 +145,11 @@ export default function Home() {
           <h2 className="shine">Let's talk.</h2>
           <p className="page-lead">Have a project, a question, or an idea worth building? I'd like to hear about it.</p>
           <div className="actions">
-            <Link to="/contact" className="btn btn-primary btn-glow">
-              Get in touch
-            </Link>
+            <Magnetic strength={0.35}>
+              <Link to="/contact" className="btn btn-primary btn-glow">
+                Get in touch
+              </Link>
+            </Magnetic>
           </div>
         </Reveal>
       </section>

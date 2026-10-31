@@ -5,10 +5,12 @@ import { Device } from "../components/Showcase";
 import Reveal from "../components/Reveal";
 import { getProjectBySlug, projects } from "../data/projects";
 import { EASE } from "../lib/motion";
+import usePageTitle from "../lib/usePageTitle";
 
 export default function ProjectDetail() {
   const { slug } = useParams();
   const project = getProjectBySlug(slug);
+  usePageTitle(project?.title);
 
   if (!project) return <Navigate to="/projects" replace />;
 
@@ -18,7 +20,7 @@ export default function ProjectDetail() {
 
   return (
     <div className="container page">
-      <Link to="/projects" className="btn-text back-link">
+      <Link to="/projects" viewTransition className="btn-text back-link">
         <FiArrowLeft /> All projects
       </Link>
 
@@ -39,7 +41,7 @@ export default function ProjectDetail() {
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 1.2, ease: EASE, delay: 0.1 }}
       >
-        <Device project={project} />
+        <Device project={project} priority />
       </motion.div>
 
       <div className="detail-grid">
@@ -74,13 +76,13 @@ export default function ProjectDetail() {
       </div>
 
       <nav className="detail-nav" aria-label="More projects">
-        <Link to={`/projects/${prev.slug}`}>
+        <Link to={`/projects/${prev.slug}`} viewTransition>
           <span>
             <FiArrowLeft /> Previous
           </span>
           {prev.title}
         </Link>
-        <Link to={`/projects/${next.slug}`} className="is-next">
+        <Link to={`/projects/${next.slug}`} viewTransition className="is-next">
           <span>
             Next <FiArrowRight />
           </span>

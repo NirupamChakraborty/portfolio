@@ -1,4 +1,5 @@
 import { FiArrowUpRight } from "react-icons/fi";
+import Magnetic from "../components/Magnetic";
 import PageHeader from "../components/PageHeader";
 import Reveal from "../components/Reveal";
 import { GITHUB_USERNAME, SITE } from "../data/siteConfig";
@@ -18,9 +19,11 @@ export default function Contact() {
       </PageHeader>
 
       <div className="actions contact-cta">
-        <a href={`mailto:${SITE.email}`} className="btn btn-primary">
-          Send an email
-        </a>
+        <Magnetic>
+          <a href={`mailto:${SITE.email}`} className="btn btn-primary">
+            Send an email
+          </a>
+        </Magnetic>
       </div>
 
       <Reveal>

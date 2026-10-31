@@ -361,7 +361,7 @@ img {
   aspect-ratio: 1.6;
   transform: translateX(-50%);
   background: radial-gradient(closest-side, rgba(41, 151, 255, 0.28), rgba(140, 90, 255, 0.12) 55%, transparent);
-  filter: blur(30px);
+  will-change: scale;
   animation: breathe 9s var(--ease) infinite alternate;
   pointer-events: none;
 }
@@ -914,6 +914,12 @@ img {
   animation-timing-function: var(--ease);
 }
 
+/* Between pages, a laptop glides from its old position to its new one. */
+::view-transition-group(*) {
+  animation-duration: 0.65s;
+  animation-timing-function: var(--ease);
+}
+
 @media (max-width: 860px) {
   .nav-links {
     display: none;
@@ -954,19 +960,45 @@ img {
     height: auto;
   }
 
-  .hero-glow,
-  .edge-glow::before,
-  .edge-fade,
-  .edge-fade::after,
-  .btn-glow::before,
-  .live-dot {
-    animation: none;
-  }
-
   ::view-transition-old(root),
   ::view-transition-new(root) {
     animation: none;
   }
+}
+
+/* Interaction polish */
+.skip-link {
+  position: fixed;
+  top: 8px;
+  left: 8px;
+  z-index: 60;
+  padding: 8px 14px;
+  border-radius: 980px;
+  background: var(--primary);
+  color: var(--on-primary);
+  transform: translateY(-200%);
+  transition: transform 0.25s var(--ease);
+}
+
+.skip-link:focus {
+  transform: none;
+}
+
+.scroll-progress {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 55;
+  height: 2px;
+  background: linear-gradient(90deg, #2997ff, #a56bff, #ff6482);
+  transform-origin: 0 50%;
+}
+
+.magnetic {
+  display: inline-block;
+}
+
+.btn:active {
+  transform: none;
 }
 
 /* Wow layer: glowing edges, zooming portrait, rising laptops, spotlights */
@@ -1011,6 +1043,7 @@ img {
   margin: -75vmax 0 0 -75vmax;
   background: conic-gradient(#2997ff, #a56bff, #ff6482, #ffb340, #30d5c8, #2997ff);
   animation: turn 10s linear infinite;
+  will-change: transform;
 }
 
 @keyframes turn {
@@ -1102,6 +1135,11 @@ img {
   perspective: 1400px;
 }
 
+.showcase-device > div {
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
 .showcase-bloom {
   position: absolute;
   inset: 8% 4% -6%;
@@ -1130,6 +1168,7 @@ img {
 
 .device-screen img {
   width: 100%;
+  height: auto;
   aspect-ratio: 16 / 10;
   border-radius: 8px;
   object-fit: cover;
@@ -1276,5 +1315,14 @@ img {
 @media (prefers-reduced-motion: reduce) {
   .zoom {
     height: 100svh;
+  }
+
+  .hero-glow,
+  .edge-glow::before,
+  .edge-fade,
+  .edge-fade::after,
+  .btn-glow::before,
+  .live-dot {
+    animation: none;
   }
 }

@@ -4,6 +4,7 @@ import { Outlet, useLocation } from "react-router-dom";
 import { MotionConfig } from "framer-motion";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import ScrollProgress from "../components/ScrollProgress";
 import ScrollToTop from "../components/ScrollToTop";
 import PageTransition from "../components/PageTransition";
 import useSpotlight from "../lib/useSpotlight";
@@ -31,9 +32,13 @@ export default function RootLayout() {
 
   return (
     <MotionConfig reducedMotion="user">
+      <a href="#main" className="skip-link">
+        Skip to content
+      </a>
       <ScrollToTop />
+      <ScrollProgress />
       <Navbar theme={theme} onToggleTheme={toggleTheme} />
-      <main>
+      <main id="main">
         <PageTransition key={location.pathname}>
           <Outlet />
         </PageTransition>

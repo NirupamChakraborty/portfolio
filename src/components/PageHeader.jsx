@@ -1,7 +1,10 @@
 import { motion } from "framer-motion";
 import { EASE } from "../lib/motion";
+import usePageTitle from "../lib/usePageTitle";
 
 export default function PageHeader({ eyebrow, title, children }) {
+  usePageTitle(eyebrow);
+
   return (
     <motion.header
       className="page-header"
