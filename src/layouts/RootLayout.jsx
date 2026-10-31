@@ -1,45 +1,44 @@
-import { useEffect, useState } from "react";
+import { useLayoutEffect, useState } from "react";
+import { flushSync } from "react-dom";
 import { Outlet, useLocation } from "react-router-dom";
-import { AnimatePresence } from "framer-motion";
-import Cursor from "../components/Cursor";
-import Noise from "../components/Noise";
+import { MotionConfig } from "framer-motion";
 import Navbar from "../components/Navbar";
-import MobileDock from "../components/MobileDock";
 import Footer from "../components/Footer";
 import ScrollToTop from "../components/ScrollToTop";
 import PageTransition from "../components/PageTransition";
-import Curtain from "../components/Curtain";
+import useSpotlight from "../lib/useSpotlight";
 
 export default function RootLayout() {
-  const [theme, setTheme] = useState(() => {
-    if (typeof window === "undefined") return "dark";
-    return localStorage.getItem("portfolio-theme") || "dark";
-  });
+  // index.html has already resolved the saved or system theme before first paint.
+  const [theme, setTheme] = useState(() => document.documentElement.dataset.theme || "dark");
   const location = useLocation();
+  useSpotlight();
 
-  useEffect(() => {
-    document.documentElement.setAttribute("data-theme", theme);
-    localStorage.setItem("portfolio-theme", theme);
+  useLayoutEffect(() => {
+    document.documentElement.dataset.theme = theme;
   }, [theme]);
 
-  const toggleTheme = () => setTheme((t) => (t === "dark" ? "light" : "dark"));
+  const toggleTheme = () => {
+    const next = theme === "dark" ? "light" : "dark";
+    try {
+      localStorage.setItem("portfolio-theme", next);
+    } catch {
+      // Storage can be blocked; the theme still applies for this visit.
+    }
+    if (!document.startViewTransition) return setTheme(next);
+    document.startViewTransition(() => flushSync(() => setTheme(next)));
+  };
 
   return (
-    <>
-      <Curtain />
-      <Noise />
-      <Cursor />
+    <MotionConfig reducedMotion="user">
       <ScrollToTop />
       <Navbar theme={theme} onToggleTheme={toggleTheme} />
-      <main className="page-shell">
-        <AnimatePresence mode="wait">
-          <PageTransition key={location.pathname}>
-            <Outlet context={{ theme, toggleTheme }} />
-          </PageTransition>
-        </AnimatePresence>
+      <main>
+        <PageTransition key={location.pathname}>
+          <Outlet />
+        </PageTransition>
       </main>
       <Footer />
-      <MobileDock theme={theme} onToggleTheme={toggleTheme} />
-    </>
+    </MotionConfig>
   );
 }

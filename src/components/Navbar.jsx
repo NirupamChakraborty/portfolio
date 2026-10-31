@@ -1,33 +1,90 @@
-import { motion } from "framer-motion";
-import { NavLink, Link } from "react-router-dom";
+import { AnimatePresence, motion, useMotionValueEvent, useScroll } from "framer-motion";
+import { useEffect, useState } from "react";
+import { Link, NavLink } from "react-router-dom";
 import { navItems } from "../data/siteConfig";
+import { EASE, SPRING } from "../lib/motion";
 import ThemeToggle from "./ThemeToggle";
 
 export default function Navbar({ theme, onToggleTheme }) {
-  return (
-    <motion.nav
-      className="nav"
-      initial={{ opacity: 0, x: "-50%", y: -50 }}
-      animate={{ opacity: 1, x: "-50%", y: 0 }}
-      transition={{ duration: 0.6 }}
-    >
-      <Link to="/" className="nav-logo">
-        NIRUPAM<span>.</span>
-      </Link>
+  const { scrollY } = useScroll();
+  const [scrolled, setScrolled] = useState(false);
+  const [open, setOpen] = useState(false);
 
-      <div className="nav-links">
-        {navItems.map((n) => (
-          <NavLink
-            key={n.path}
-            to={n.path}
-            className={({ isActive }) => `nav-link${isActive ? " active" : ""}`}
+  useMotionValueEvent(scrollY, "change", (y) => setScrolled(y > 8));
+
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e) => e.key === "Escape" && setOpen(false);
+    document.body.style.overflow = "hidden";
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = "";
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [open]);
+
+  const close = () => setOpen(false);
+
+  return (
+    <header className={`nav${scrolled || open ? " is-solid" : ""}`}>
+      <div className="container nav-inner">
+        <Link to="/" className="nav-logo" onClick={close}>
+          Nirupam Chakraborty
+        </Link>
+
+        <nav className="nav-links" aria-label="Primary">
+          {navItems.map((n) => (
+            <NavLink key={n.path} to={n.path} className="nav-link">
+              {({ isActive }) => (
+                <>
+                  {isActive && <motion.span className="nav-pill" layoutId="nav-pill" transition={SPRING} />}
+                  <span className="nav-label">{n.label}</span>
+                </>
+              )}
+            </NavLink>
+          ))}
+        </nav>
+
+        <div className="nav-actions">
+          <ThemeToggle theme={theme} onToggle={onToggleTheme} />
+          <button
+            type="button"
+            className={`menu-btn${open ? " is-open" : ""}`}
+            aria-label={open ? "Close menu" : "Open menu"}
+            aria-expanded={open}
+            onClick={() => setOpen((v) => !v)}
           >
-            {n.label}
-          </NavLink>
-        ))}
+            <span />
+            <span />
+          </button>
+        </div>
       </div>
 
-      <ThemeToggle theme={theme} onToggle={onToggleTheme} />
-    </motion.nav>
+      <AnimatePresence>
+        {open && (
+          <motion.nav
+            className="menu-sheet"
+            aria-label="Menu"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3, ease: EASE }}
+          >
+            {navItems.map((n, i) => (
+              <motion.div
+                key={n.path}
+                initial={{ opacity: 0, y: 14 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, ease: EASE, delay: 0.04 + i * 0.04 }}
+              >
+                <NavLink to={n.path} className="menu-link" onClick={close}>
+                  {n.label}
+                </NavLink>
+              </motion.div>
+            ))}
+          </motion.nav>
+        )}
+      </AnimatePresence>
+    </header>
   );
 }

@@ -1,188 +1,149 @@
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, useMotionTemplate, useMotionValue, useReducedMotion, useScroll, useSpring, useTransform } from "framer-motion";
+import { useRef } from "react";
 import { Link } from "react-router-dom";
-import { Suspense, lazy, useEffect, useState } from "react";
-import { FiUser, FiCode, FiMail, FiArrowRight } from "react-icons/fi";
-import Ticker from "../components/Ticker";
+import { FiArrowRight, FiArrowDown } from "react-icons/fi";
+import CountUp from "../components/CountUp";
+import LetterReveal from "../components/LetterReveal";
+import PortraitZoom from "../components/PortraitZoom";
+import Reveal from "../components/Reveal";
+import ScrollText from "../components/ScrollText";
+import Showcase from "../components/Showcase";
+import StackCards from "../components/StackCards";
+import { currentWork } from "../data/experiences";
+import { projects } from "../data/projects";
+import { SITE } from "../data/siteConfig";
+import { EASE } from "../lib/motion";
 
-// three.js is a heavy dependency — split it into its own chunk so it only
-// loads once the browser actually needs the hero's 3D scene.
-const Scene3D = lazy(() => import("../components/Scene3D"));
+const STATS = [
+  { value: 15, suffix: "+", label: "services shipping through automated CI/CD" },
+  { value: 3, label: "cloud environments provisioned with Terraform" },
+  { value: 60, suffix: "%", label: "faster page loads after a React migration" },
+  { value: 30, suffix: "+", label: "active users on QuickAI, my AI SaaS platform" },
+];
 
-const ROLES = ["Full-Stack Engineer", "AI Engineer", "Software Engineer"];
+const rise = (delay) => ({
+  initial: { opacity: 0, y: 28, filter: "blur(6px)" },
+  animate: { opacity: 1, y: 0, filter: "blur(0px)" },
+  transition: { duration: 1.2, ease: EASE, delay },
+});
 
-function RotatingRole() {
-  const [i, setI] = useState(0);
-  useEffect(() => {
-    const id = setInterval(() => setI((v) => (v + 1) % ROLES.length), 2200);
-    return () => clearInterval(id);
-  }, []);
+function Hero() {
+  const ref = useRef(null);
+  const reduced = useReducedMotion();
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
+  const scale = useTransform(scrollYProgress, [0, 0.6], [1, 0.9]);
+  const opacity = useTransform(scrollYProgress, [0, 0.55], [1, 0]);
+
+  const pointerX = useSpring(useMotionValue(0), { stiffness: 60, damping: 20 });
+  const pointerY = useSpring(useMotionValue(0), { stiffness: 60, damping: 20 });
+  const orb = useMotionTemplate`radial-gradient(420px circle at ${pointerX}px ${pointerY}px, rgba(120, 110, 255, 0.2), transparent 70%)`;
+
+  const onPointerMove = (e) => {
+    pointerX.set(e.clientX);
+    pointerY.set(e.clientY);
+  };
+
   return (
-    <span style={{ position: "relative", display: "inline-block", minWidth: "13ch" }}>
-      <AnimatePresence mode="wait">
-        <motion.span
-          key={ROLES[i]}
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -10 }}
-          transition={{ duration: 0.35 }}
-          style={{ display: "inline-block" }}
-        >
-          {ROLES[i]}
-        </motion.span>
-      </AnimatePresence>
-    </span>
+    <section ref={ref} className="hero" onPointerMove={onPointerMove}>
+      <div className="hero-pin">
+        <motion.div className="hero-glow" aria-hidden="true" style={reduced ? undefined : { opacity }} />
+        <motion.div className="hero-orb" aria-hidden="true" style={{ background: orb }} />
+        <motion.div className="edge-wrap" aria-hidden="true" style={reduced ? undefined : { opacity }}>
+          <div className="edge-fade">
+            <div className="edge-glow" />
+          </div>
+        </motion.div>
+        <motion.div className="container hero-copy" style={reduced ? undefined : { scale, opacity }}>
+          <motion.p className="eyebrow" {...rise(0.1)}>
+            {SITE.role} at {SITE.company}
+          </motion.p>
+          <LetterReveal text={SITE.name} delay={0.2} />
+          <motion.p className="hero-lead" {...rise(0.9)}>
+            I build the access control, backend services and cloud infrastructure that products depend on.
+          </motion.p>
+          <motion.div className="actions" {...rise(1.05)}>
+            <Link to="/projects" className="btn btn-primary">
+              View my work
+            </Link>
+            <a href={SITE.resume} target="_blank" rel="noreferrer" className="btn-text">
+              Resume <FiArrowDown />
+            </a>
+          </motion.div>
+        </motion.div>
+      </div>
+    </section>
   );
 }
-
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: { opacity: 1, transition: { staggerChildren: 0.15, delayChildren: 0.2 } },
-};
-const itemVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } },
-};
-
-const QUICK_LINKS = [
-  { to: "/about", Icon: FiUser, title: "About Me", text: "CSE final-year, JEC · design + engineering + AI" },
-  { to: "/projects", Icon: FiCode, title: "Projects", text: "7 shipped products, from blockchain health-tech to AI SaaS" },
-  { to: "/contact", Icon: FiMail, title: "Get in Touch", text: "Open to full-time roles starting 2026" },
-];
 
 export default function Home() {
   return (
     <>
-      {/* HERO */}
-      <div id="hero" className="hero">
-        <Suspense fallback={null}>
-          <Scene3D className="hero-scene3d" />
-        </Suspense>
-        <div className="hero-bg-text">NC</div>
-        <motion.div
-          className="hero-slash"
-          initial={{ x: 100, opacity: 0 }}
-          animate={{ x: 0, opacity: 1 }}
-          transition={{ duration: 1, delay: 0.2 }}
-        >
-          <img className="hero-slash-img" src="/profile.jpeg" alt="" />
-          <div className="hero-slash-overlay" />
-        </motion.div>
-        <div className="hero-content">
-          <motion.div
-            className="hero-eyebrow"
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6 }}
-          >
-            <RotatingRole /> · CSE 2026
-          </motion.div>
-          <motion.h1
-            className="hero-name"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.1 }}
-          >
-            NIRUPAM
-            <span className="line2">CHAKRABORTY</span>
-          </motion.h1>
-          <motion.div
-            className="hero-bottom"
-            initial="hidden"
-            animate="visible"
-            variants={containerVariants}
-          >
-            <motion.p className="hero-desc" variants={itemVariants}>
-              Final-year CSE student building at the intersection of <strong>design</strong>,{" "}
-              <strong>engineering</strong>, and <strong>AI</strong>. 3 internships. 7 shipped products. Tea &gt; Coffee.
-            </motion.p>
-            <motion.div className="hero-meta" variants={itemVariants}>
-              <div className="hero-stats">
-                {[
-                  { n: "3", l: "Internships" },
-                  { n: "7+", l: "Projects" },
-                  { n: "20+", l: "Technologies" },
-                ].map((stat, i) => (
-                  <motion.div key={i} whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
-                    <div className="stat-n">{stat.n}</div>
-                    <div className="stat-l">{stat.l}</div>
-                  </motion.div>
-                ))}
-              </div>
-              <div className="hero-cta">
-                <motion.a
-                  href="/Nirupam_Chakraborty_Resume.pdf"
-                  target="_blank"
-                  className="btn-orange"
-                  whileHover={{ scale: 1.05, y: -3 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  ↓ Resume
-                </motion.a>
-                <motion.div whileHover={{ scale: 1.05, y: -3 }} whileTap={{ scale: 0.95 }}>
-                  <Link to="/contact" className="btn-outline">
-                    Get in Touch →
-                  </Link>
-                </motion.div>
-              </div>
-            </motion.div>
-          </motion.div>
-        </div>
-      </div>
+      <Hero />
 
-      <Ticker />
+      <PortraitZoom>From Assam, shipping to production.</PortraitZoom>
 
-      <motion.div
-        className="hdiv"
-        initial={{ scaleX: 0 }}
-        whileInView={{ scaleX: 1 }}
-        transition={{ duration: 0.8 }}
-        style={{ originX: 0 }}
-      />
-
-      {/* QUICK LINKS */}
       <section className="section">
-        <motion.div
-          className="section-label"
-          initial={{ opacity: 0, x: -20 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.6 }}
-          viewport={{ once: true }}
-        >
-          Explore
-        </motion.div>
-        <motion.h2
-          className="section-title"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7 }}
-          viewport={{ once: true }}
-        >
-          FIND OUT <em>MORE</em>
-        </motion.h2>
-        <div className="quick-links-grid" style={{ perspective: 1200 }}>
-          {QUICK_LINKS.map((q, i) => (
-            <motion.div
-              key={q.to}
-              style={{ transformStyle: "preserve-3d" }}
-              initial={{ opacity: 0, y: -130, rotateX: -70 }}
-              whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
-              transition={{ type: "spring", stiffness: 85, damping: 12, delay: i * 0.12 }}
-              viewport={{ once: true, amount: 0.3 }}
-              whileHover={{ y: -8 }}
-            >
-              <Link to={q.to} className="quick-link-card">
-                <div className="ql-icon">
-                  <q.Icon />
-                </div>
-                <div className="ql-title">{q.title}</div>
-                <div className="ql-text">{q.text}</div>
-                <div className="ql-arrow">
-                  <FiArrowRight />
-                </div>
-              </Link>
-            </motion.div>
+        <div className="container">
+          <ScrollText text="Most of my work is the part of a product people never see: who can access what, what gets recorded, and how code reaches production safely." />
+        </div>
+      </section>
+
+      <section className="section">
+        <div className="container">
+          <Reveal className="section-head">
+            <p className="eyebrow">Now at {SITE.company}</p>
+            <h2>What I'm building.</h2>
+          </Reveal>
+          <StackCards items={currentWork} />
+        </div>
+      </section>
+
+      <section className="section">
+        <div className="container">
+          <Reveal className="section-head">
+            <p className="eyebrow">Impact</p>
+            <h2>By the numbers.</h2>
+          </Reveal>
+          <div className="stat-grid">
+            {STATS.map((s, i) => (
+              <Reveal key={s.label} className="stat spot" delay={i * 0.08}>
+                <p className="stat-value">
+                  <CountUp value={s.value} suffix={s.suffix} />
+                </p>
+                <p className="stat-label">{s.label}</p>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="section">
+        <div className="container">
+          <Reveal className="section-head section-head-row">
+            <div>
+              <p className="eyebrow">Selected work</p>
+              <h2>Things I've built.</h2>
+            </div>
+            <Link to="/projects" className="btn-text">
+              All projects <FiArrowRight />
+            </Link>
+          </Reveal>
+          {projects.map((p) => (
+            <Showcase key={p.slug} project={p} />
           ))}
         </div>
+      </section>
+
+      <section className="section closing">
+        <Reveal className="container">
+          <h2 className="shine">Let's talk.</h2>
+          <p className="page-lead">Have a project, a question, or an idea worth building? I'd like to hear about it.</p>
+          <div className="actions">
+            <Link to="/contact" className="btn btn-primary btn-glow">
+              Get in touch
+            </Link>
+          </div>
+        </Reveal>
       </section>
     </>
   );

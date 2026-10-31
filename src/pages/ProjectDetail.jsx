@@ -1,8 +1,10 @@
 import { motion } from "framer-motion";
 import { Link, Navigate, useParams } from "react-router-dom";
-import { FiArrowLeft, FiGithub, FiExternalLink } from "react-icons/fi";
+import { FiArrowLeft, FiArrowRight, FiArrowUpRight } from "react-icons/fi";
+import { Device } from "../components/Showcase";
+import Reveal from "../components/Reveal";
 import { getProjectBySlug, projects } from "../data/projects";
-import { techLogos } from "../data/techLogos";
+import { EASE } from "../lib/motion";
 
 export default function ProjectDetail() {
   const { slug } = useParams();
@@ -15,91 +17,76 @@ export default function ProjectDetail() {
   const next = projects[(idx + 1) % projects.length];
 
   return (
-    <section className="section proj-detail">
-      <Link to="/projects" className="proj-back">
-        <FiArrowLeft /> All Projects
+    <div className="container page">
+      <Link to="/projects" className="btn-text back-link">
+        <FiArrowLeft /> All projects
       </Link>
 
-      <motion.div
-        className="section-label"
-        initial={{ opacity: 0, x: -20 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ duration: 0.5 }}
-      >
-        Project {project.num}
-      </motion.div>
-      <motion.h2
-        className="section-title"
-        initial={{ opacity: 0, y: 20 }}
+      <motion.header
+        className="detail-head"
+        initial={{ opacity: 0, y: 24 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
+        transition={{ duration: 1, ease: EASE }}
       >
-        {project.title.toUpperCase()}
-      </motion.h2>
+        <p className="eyebrow">{project.tags.join(" · ")}</p>
+        <h1>{project.title}</h1>
+      </motion.header>
 
       <motion.div
-        className="proj-detail-img-wrap"
-        initial={{ opacity: 0, scale: 0.97 }}
+        className="detail-device"
+        style={{ "--hue": project.hue }}
+        initial={{ opacity: 0, scale: 0.94 }}
         animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.6, delay: 0.1 }}
+        transition={{ duration: 1.2, ease: EASE, delay: 0.1 }}
       >
-        <img src={project.image} alt={project.title} className="proj-detail-img" />
+        <Device project={project} />
       </motion.div>
 
-      <div className="proj-detail-grid">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.15 }}
-        >
-          <p className="proj-detail-desc">{project.longDesc || project.desc}</p>
-
-          <div className="proj-links proj-detail-links">
-            {project.github && (
-              <a href={project.github} target="_blank" rel="noreferrer" className="btn-outline">
-                <FiGithub /> Code
-              </a>
-            )}
-            {project.live && (
-              <a href={project.live} target="_blank" rel="noreferrer" className="btn-orange">
-                <FiExternalLink /> Live Site
-              </a>
-            )}
-          </div>
-        </motion.div>
-
-        <motion.div
-          className="proj-detail-stack"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-        >
-          <div className="ac-label">Tech Stack</div>
-          <div className="proj-tags-row" style={{ marginTop: ".75rem" }}>
-            {(project.stack || project.tags).map((t) => (
-              <span key={t} className="p-tag">
-                {t}
-              </span>
-            ))}
-          </div>
-          {project.logos?.length > 0 && (
-            <div className="proj-logos" style={{ marginTop: "1.25rem" }}>
-              {project.logos.map((l) => (techLogos[l] ? <img key={l} src={techLogos[l]} alt={l} title={l} /> : null))}
-            </div>
+      <div className="detail-grid">
+        <Reveal>
+          {project.metric && (
+            <p className="metric detail-metric">
+              <strong>{project.metric.value}</strong> {project.metric.label}
+            </p>
           )}
-        </motion.div>
+          <p className="detail-copy">{project.longDesc}</p>
+          <div className="actions">
+            {project.live && (
+              <a href={project.live} target="_blank" rel="noreferrer" className="btn btn-primary">
+                Visit site <FiArrowUpRight />
+              </a>
+            )}
+            {project.github && (
+              <a href={project.github} target="_blank" rel="noreferrer" className="btn-text">
+                View code <FiArrowUpRight />
+              </a>
+            )}
+          </div>
+        </Reveal>
+        <Reveal delay={0.1}>
+          <h2 className="eyebrow">Built with</h2>
+          <ul className="detail-stack">
+            {project.stack.map((t) => (
+              <li key={t}>{t}</li>
+            ))}
+          </ul>
+        </Reveal>
       </div>
 
-      <div className="proj-detail-nav">
-        <Link to={`/projects/${prev.slug}`} className="proj-detail-nav-link">
-          <span className="pdn-label">← Previous</span>
-          <span className="pdn-title">{prev.title}</span>
+      <nav className="detail-nav" aria-label="More projects">
+        <Link to={`/projects/${prev.slug}`}>
+          <span>
+            <FiArrowLeft /> Previous
+          </span>
+          {prev.title}
         </Link>
-        <Link to={`/projects/${next.slug}`} className="proj-detail-nav-link align-right">
-          <span className="pdn-label">Next →</span>
-          <span className="pdn-title">{next.title}</span>
+        <Link to={`/projects/${next.slug}`} className="is-next">
+          <span>
+            Next <FiArrowRight />
+          </span>
+          {next.title}
         </Link>
-      </div>
-    </section>
+      </nav>
+    </div>
   );
 }
