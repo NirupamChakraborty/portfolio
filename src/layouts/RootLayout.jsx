@@ -1,14 +1,17 @@
 import { useCallback, useEffect, useLayoutEffect, useState } from "react";
 import { flushSync } from "react-dom";
 import { Outlet, useLocation } from "react-router-dom";
-import { MotionConfig } from "framer-motion";
+import { AnimatePresence, MotionConfig } from "framer-motion";
 import CommandPalette from "../components/CommandPalette";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import Road from "../components/Road";
 import ScrollProgress from "../components/ScrollProgress";
 import ScrollToTop from "../components/ScrollToTop";
+import StartGate from "../components/StartGate";
 import Telemetry from "../components/Telemetry";
 import PageTransition from "../components/PageTransition";
+import { shouldShowGate } from "../lib/startGate";
 import useSpotlight from "../lib/useSpotlight";
 
 export default function RootLayout() {
@@ -16,6 +19,8 @@ export default function RootLayout() {
   const [theme, setTheme] = useState(() => document.documentElement.dataset.theme || "dark");
   const [paletteOpen, setPaletteOpen] = useState(false);
   const location = useLocation();
+  const [started, setStarted] = useState(() => !shouldShowGate(location.pathname));
+  const onStarted = useCallback(() => setStarted(true), []);
   useSpotlight();
 
   useLayoutEffect(() => {
@@ -54,12 +59,18 @@ export default function RootLayout() {
       <Navbar theme={theme} onToggleTheme={toggleTheme} onOpenPalette={() => setPaletteOpen(true)} />
       <CommandPalette open={paletteOpen} onClose={() => setPaletteOpen(false)} onToggleTheme={toggleTheme} />
       <Telemetry />
-      <main id="main">
-        <PageTransition key={location.pathname}>
-          <Outlet />
-        </PageTransition>
-      </main>
-      <Footer />
+      <AnimatePresence>{!started && <StartGate onDone={onStarted} />}</AnimatePresence>
+      <Road />
+      {started && (
+        <>
+          <main id="main">
+            <PageTransition key={location.pathname}>
+              <Outlet />
+            </PageTransition>
+          </main>
+          <Footer />
+        </>
+      )}
     </MotionConfig>
   );
 }

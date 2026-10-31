@@ -17,11 +17,11 @@ export default function Experience() {
         <div className="timeline-rail" aria-hidden="true">
           <motion.div style={reduced ? undefined : { scaleY: scrollYProgress }} />
         </div>
-        {experiences.map((e) => (
+        {experiences.map((e, i) => (
           <Reveal key={e.company} className="job">
             <p className="job-period">
               {e.current && <span className="live-dot" aria-hidden="true" />}
-              {e.period}
+              Lap {experiences.length - i} · {e.period}
             </p>
             <h2>{e.role}</h2>
             <p className="job-company">

@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { navItems } from "../data/siteConfig";
 import { EASE, SPRING } from "../lib/motion";
+import Emblem from "./Emblem";
 import ThemeToggle from "./ThemeToggle";
 
 export default function Navbar({ theme, onToggleTheme, onOpenPalette }) {
@@ -29,16 +30,19 @@ export default function Navbar({ theme, onToggleTheme, onOpenPalette }) {
     <header className={`nav${scrolled || open ? " is-solid" : ""}`}>
       <div className="container nav-inner">
         <Link to="/" className="nav-logo" onClick={close}>
-          NC<span>_</span>
+          <Emblem />
+          <span className="sr-only">Nirupam Chakraborty, home</span>
         </Link>
 
         <nav className="nav-links" aria-label="Primary">
-          {navItems.map((n) => (
+          {navItems.map((n, i) => (
             <NavLink key={n.path} to={n.path} className="nav-link">
               {({ isActive }) => (
                 <>
                   {isActive && <motion.span className="nav-pill" layoutId="nav-pill" transition={SPRING} />}
-                  <span className="nav-label">{n.label}</span>
+                  <span className="nav-label">
+                    <b>{i + 1}</b> {n.label}
+                  </span>
                 </>
               )}
             </NavLink>
@@ -81,7 +85,7 @@ export default function Navbar({ theme, onToggleTheme, onOpenPalette }) {
                 transition={{ duration: 0.5, ease: EASE, delay: 0.04 + i * 0.04 }}
               >
                 <NavLink to={n.path} className="menu-link" onClick={close}>
-                  {n.label}
+                  <b>{i + 1}</b> {n.label}
                 </NavLink>
               </motion.div>
             ))}

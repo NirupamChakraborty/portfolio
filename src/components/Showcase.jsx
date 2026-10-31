@@ -66,6 +66,7 @@ export default function Showcase({ project }) {
       </div>
       <div className="showcase-copy">
         <div>
+          <span className="plate">{project.plate}</span>
           <p className="eyebrow">{project.tags.slice(0, 3).join(" · ")}</p>
           <h3>{project.title}</h3>
           <p className="showcase-desc">{project.desc}</p>

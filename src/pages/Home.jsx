@@ -2,7 +2,10 @@ import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion
 import { useRef } from "react";
 import { Link } from "react-router-dom";
 import { FiArrowRight, FiArrowDown } from "react-icons/fi";
+import CarDrive from "../components/CarDrive";
 import CountUp from "../components/CountUp";
+import DreamGarage from "../components/DreamGarage";
+import Headlights from "../components/Headlights";
 import LetterReveal from "../components/LetterReveal";
 import LightBar from "../components/LightBar";
 import Magnetic from "../components/Magnetic";
@@ -78,6 +81,8 @@ export default function Home() {
     <>
       <Hero />
 
+      <Headlights>Lights on. Eyes on the road.</Headlights>
+
       <PortraitZoom>Off the clock: anything with an engine.</PortraitZoom>
 
       <section className="section">
@@ -117,6 +122,8 @@ export default function Home() {
         </div>
       </section>
 
+      <DreamGarage />
+
       <section className="section">
         <div className="container">
           <Reveal className="section-head section-head-row">
@@ -135,6 +142,7 @@ export default function Home() {
       </section>
 
       <section className="section closing">
+        <CarDrive />
         <Reveal className="container">
           <p className="eyebrow">// pit lane open</p>
           <h2 className="shine">Let's talk.</h2>

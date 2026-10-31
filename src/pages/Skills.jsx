@@ -9,7 +9,10 @@ export default function Skills() {
       <div className="skill-rows">
         {skillGroups.map((g) => (
           <Reveal key={g.category} className="skill-row">
-            <h2>{g.category}</h2>
+            <div>
+              <p className="eyebrow">{g.part}</p>
+              <h2>{g.category}</h2>
+            </div>
             <ul className="tags">
               {g.items.map((s) => (
                 <li key={s}>{s}</li>

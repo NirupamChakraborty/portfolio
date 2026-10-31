@@ -1,6 +1,7 @@
 export const projects = [
   {
     slug: "medtrust",
+    plate: "MED 01",
     shot: "/projects/medtrust.jpg",
     title: "MedTrust",
     desc: "A production-grade telemedicine platform anchoring the SHA-256 hash of every prescription on a private Quorum blockchain for tamper detection, with AI-powered disease prediction and a native Kotlin Android app.",
@@ -13,6 +14,7 @@ export const projects = [
   },
   {
     slug: "quickai",
+    plate: "QAI 02",
     shot: "/projects/quickai.jpg",
     title: "QuickAI",
     desc: "A full-stack AI SaaS platform offering blog generation, resume review, and text-to-image generation, serving 30+ active users.",

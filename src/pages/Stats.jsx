@@ -48,7 +48,7 @@ export default function Stats() {
 
   return (
     <div className="container page">
-      <PageHeader eyebrow="Stats" title="Live from GitHub.">
+      <PageHeader eyebrow="Stats" title="Live telemetry.">
         Fetched from the GitHub API each time this page loads.
       </PageHeader>
 

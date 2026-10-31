@@ -14,7 +14,7 @@ const LINKS = [
 export default function Contact() {
   return (
     <div className="container page">
-      <PageHeader eyebrow="Contact" title="Let's talk.">
+      <PageHeader eyebrow="Contact" title="Pit lane.">
         Have a project, a question, or an idea worth building? Email is the best way to reach me.
       </PageHeader>
 

@@ -1,8 +1,8 @@
 # Nirupam Chakraborty — Portfolio
 
-A multi-page React portfolio with a luxury automotive and terminal design:
-carbon black, one racing red, instrument-style telemetry driven by scrolling,
-and a keyboard command menu (Cmd/Ctrl + K).
+A car-obsessed, multi-page React portfolio: start lights on arrival, angry
+headlights, a scroll-driven tachometer and speedometer, racing livery on every
+page, and a keyboard command menu (Cmd/Ctrl + K).
 
 **Live site:** https://portfolio-beta-one-82.vercel.app
 

@@ -1,12 +1,12 @@
 export const skillGroups = [
-  { category: "Languages", items: ["JavaScript (ES6+)", "Python", "SQL", "HTML5", "CSS3"] },
+  { part: "Engine", category: "Languages", items: ["JavaScript (ES6+)", "Python", "SQL", "HTML5", "CSS3"] },
   {
-    category: "Frameworks",
+    part: "Chassis", category: "Frameworks",
     items: ["React.js", "Node.js", "Express.js", "FastAPI", "Tailwind CSS", "Bootstrap", "EJS", "Selenium"],
   },
-  { category: "Databases", items: ["PostgreSQL", "MongoDB", "MySQL", "NeonDB"] },
+  { part: "Fuel system", category: "Databases", items: ["PostgreSQL", "MongoDB", "MySQL", "NeonDB"] },
   {
-    category: "Cloud & DevOps",
+    part: "Drivetrain", category: "Cloud & DevOps",
     items: [
       "GCP Cloud Run",
       "Workload Identity Federation",
@@ -23,7 +23,7 @@ export const skillGroups = [
     ],
   },
   {
-    category: "AI & Practices",
+    part: "ECU", category: "AI & Practices",
     items: [
       "Gemini API",
       "OpenRouter API",
