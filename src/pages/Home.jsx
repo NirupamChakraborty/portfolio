@@ -3,6 +3,7 @@ import { useRef } from "react";
 import { Link } from "react-router-dom";
 import { FiArrowRight, FiArrowDown } from "react-icons/fi";
 import BikeLean from "../components/BikeLean";
+import BrakeDisc from "../components/BrakeDisc";
 import CarDrive from "../components/CarDrive";
 import CountUp from "../components/CountUp";
 import DreamGarage from "../components/DreamGarage";
@@ -12,6 +13,7 @@ import LightBar from "../components/LightBar";
 import Magnetic from "../components/Magnetic";
 import PortraitZoom from "../components/PortraitZoom";
 import RaceControl from "../components/RaceControl";
+import RearEnd from "../components/RearEnd";
 import Reveal from "../components/Reveal";
 import ScrollText from "../components/ScrollText";
 import Showcase from "../components/Showcase";
@@ -110,9 +112,12 @@ export default function Home() {
 
       <section className="section">
         <div className="container">
-          <Reveal className="section-head">
-            <p className="eyebrow">// measured, not claimed</p>
-            <h2>Performance figures.</h2>
+          <Reveal className="section-head section-head-row">
+            <div>
+              <p className="eyebrow">// measured, not claimed</p>
+              <h2>Performance figures.</h2>
+            </div>
+            <BrakeDisc />
           </Reveal>
           <div className="figures">
             {FIGURES.map((f, i) => (
@@ -161,6 +166,9 @@ export default function Home() {
             </Magnetic>
           </div>
         </Reveal>
+        <div className="container">
+          <RearEnd />
+        </div>
       </section>
     </>
   );
