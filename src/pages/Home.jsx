@@ -2,7 +2,6 @@ import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion
 import { useRef } from "react";
 import { Link } from "react-router-dom";
 import { FiArrowRight, FiArrowDown } from "react-icons/fi";
-import BikeLean from "../components/BikeLean";
 import BrakeDisc from "../components/BrakeDisc";
 import CarDrive from "../components/CarDrive";
 import CountUp from "../components/CountUp";
@@ -12,7 +11,6 @@ import LetterReveal from "../components/LetterReveal";
 import LightBar from "../components/LightBar";
 import Magnetic from "../components/Magnetic";
 import PortraitZoom from "../components/PortraitZoom";
-import RaceControl from "../components/RaceControl";
 import RearEnd from "../components/RearEnd";
 import Reveal from "../components/Reveal";
 import ScrollText from "../components/ScrollText";
@@ -85,11 +83,7 @@ export default function Home() {
     <>
       <Hero />
 
-      <RaceControl />
-
       <Headlights>Lights on. Eyes on the road.</Headlights>
-
-      <BikeLean>Brake late. Lean hard. Ship clean.</BikeLean>
 
       <PortraitZoom>Off the clock: anything with an engine.</PortraitZoom>
 
