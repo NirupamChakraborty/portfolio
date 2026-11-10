@@ -7,10 +7,12 @@ export default function Skills() {
     <div className="container page">
       <PageHeader eyebrow="Skills" title="Full spec." />
       <div className="skill-rows">
-        {skillGroups.map((g) => (
+        {skillGroups.map((g, i) => (
           <Reveal key={g.category} className="skill-row">
             <div>
-              <p className="eyebrow">{g.part}</p>
+              <p className="eyebrow">
+                P{i + 1} · {g.part}
+              </p>
               <h2>{g.category}</h2>
             </div>
             <ul className="tags">

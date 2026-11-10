@@ -21,6 +21,7 @@ export default function CommandPalette({ open, onClose, onToggleTheme }) {
       { label: "GitHub", hint: "link", run: () => window.open(SITE.github, "_blank") },
       { label: "LinkedIn", hint: "link", run: () => window.open(SITE.linkedin, "_blank") },
       { label: "Switch theme", hint: "toggle", run: onToggleTheme },
+      { label: "Nitrous", hint: "boost", run: () => window.dispatchEvent(new Event("nitrous")) },
     ],
     [navigate, onToggleTheme],
   );

@@ -23,13 +23,39 @@ function Wheel({ x, spin }) {
   );
 }
 
-// A wedge-shaped supercar that crosses the page, wheels turning with the scroll.
+function Bike({ spin }) {
+  return (
+    <>
+      <path d="M72 98 28 86" className="moto-pipe" />
+      <path d="M235 125 213 72M60 125 140 110" className="moto-fork" />
+      <path d="M38 58 112 72Q140 44 182 56L236 70Q252 78 246 90L222 116 128 120 100 88 44 70Z" className="car-body" />
+      <path d="M196 58Q214 44 232 66L214 66Z" className="car-glass" />
+      <path d="M104 66Q130 28 178 38L188 58Q150 52 124 74Z" className="moto-rider" />
+      <path d="M112 70 152 96 140 114 128 110 134 98 104 80Z" className="moto-rider" />
+      <circle cx="193" cy="40" r="15" className="moto-helmet" />
+      <path d="M196 34 208 40 204 47 194 44Z" className="car-glass" />
+      {[60, 235].map((x) => (
+        <g key={x} transform={`translate(${x} 125)`}>
+          <circle r="33" className="wheel-tyre" />
+          <motion.g style={{ rotate: spin }}>
+            <circle r="20" className="wheel-rim" />
+            <path d="M0 -19V19M-19 0H19" className="wheel-spoke" />
+          </motion.g>
+          <circle r="5" className="wheel-hub" />
+        </g>
+      ))}
+    </>
+  );
+}
+
+// A supercar crosses the page with a race bike chasing it, wheels turning with the scroll.
 export default function CarDrive() {
   const ref = useRef(null);
   const reduced = useReducedMotion();
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
   const x = useTransform(scrollYProgress, [0, 1], ["-60vw", "95vw"]);
   const spin = useTransform(scrollYProgress, [0, 1], [0, 2160]);
+  const bikeX = useTransform(scrollYProgress, [0, 1], ["-84vw", "76vw"]);
 
   return (
     <div ref={ref} className="drive" aria-hidden="true">
@@ -46,6 +72,9 @@ export default function CarDrive() {
         <path d="M570 140 L640 140" className="car-splitter" />
         <Wheel x={158} spin={spin} />
         <Wheel x={518} spin={spin} />
+      </motion.svg>
+      <motion.svg viewBox="0 0 300 164" className="drive-bike" style={reduced ? undefined : { x: bikeX }}>
+        <Bike spin={spin} />
       </motion.svg>
       <div className="drive-road" />
     </div>

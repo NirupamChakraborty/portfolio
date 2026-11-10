@@ -5,6 +5,17 @@ import { SITE, navItems } from "../data/siteConfig";
 export default function Footer() {
   return (
     <footer className="footer">
+      <div className="exhaust-wrap">
+        <div className="exhaust" aria-hidden="true">
+          <span />
+          <span />
+          <span />
+          <span />
+        </div>
+        <p className="exhaust-hint">
+          Press <kbd>N</kbd> or tap NOS for nitrous
+        </p>
+      </div>
       <div className="checker" aria-hidden="true" />
       <div className="container footer-inner">
         <Emblem size={26} />

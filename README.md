@@ -1,8 +1,9 @@
 # Nirupam Chakraborty — Portfolio
 
-A car-obsessed, multi-page React portfolio: start lights on arrival, angry
-headlights, a scroll-driven tachometer and speedometer, racing livery on every
-page, and a keyboard command menu (Cmd/Ctrl + K).
+A car- and bike-obsessed, multi-page React portfolio: start lights on arrival,
+angry headlights, a race bike that leans as you scroll, an arcade HUD with a
+lap timer and nitrous (press N), racing livery on every page, and a keyboard
+command menu (Cmd/Ctrl + K).
 
 **Live site:** https://portfolio-beta-one-82.vercel.app
 
