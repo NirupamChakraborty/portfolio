@@ -2,6 +2,8 @@ export const experiences = [
   {
     role: "Software Developer (Backend)",
     company: "RiskGrid AI",
+    code: "RGA",
+    color: "#e10600",
     period: "July 2025 – Present",
     location: "Remote (Bangalore, India)",
     current: true,
@@ -16,6 +18,8 @@ export const experiences = [
   {
     role: "Software Developer Intern",
     company: "Indian Oil Corporation Limited (IOCL)",
+    code: "IOC",
+    color: "#ff8a00",
     period: "July 2025 – Aug 2025",
     location: "Digboi, Assam",
     points: [
@@ -27,6 +31,8 @@ export const experiences = [
   {
     role: "Web Developer Intern",
     company: "GrowthLink Solutions",
+    code: "GRL",
+    color: "#27c4b4",
     period: "Jan 2025 – Apr 2025",
     location: "Remote",
     points: [

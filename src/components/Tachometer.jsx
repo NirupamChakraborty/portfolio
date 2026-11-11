@@ -23,8 +23,9 @@ function arc(from, to, radius) {
 
 const TICKS = Array.from({ length: MAX_REV * 4 + 1 }, (_, i) => i / 4);
 
-// A rev counter. The needle sweeps on ignition, then follows the page scroll.
-export default function Tachometer({ progress }) {
+// A rev counter. The needle sweeps on ignition, then follows the page scroll
+// and the rev button.
+export default function Tachometer({ progress, throttle }) {
   const reduced = useReducedMotion();
   const sweep = useMotionValue(reduced ? IDLE : 0);
 
@@ -34,7 +35,8 @@ export default function Tachometer({ progress }) {
     return () => controls.stop();
   }, [reduced, sweep]);
 
-  const rev = useTransform([sweep, progress], ([s, p]) => Math.max(s, IDLE + p * 7));
+  const pedal = useMotionValue(0);
+  const rev = useTransform([sweep, progress, throttle ?? pedal], ([s, p, t]) => Math.max(s, IDLE + p * 7, IDLE + t * 7.3));
   const rotate = useTransform(rev, [0, MAX_REV], [-120, 120]);
   const rpm = useTransform(rev, (v) => String(Math.round(v * 100) * 10).padStart(4, "0"));
 

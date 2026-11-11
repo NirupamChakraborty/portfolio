@@ -1,23 +1,26 @@
-import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
+import { motion, useMotionValue, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import { Link } from "react-router-dom";
 import { FiArrowRight, FiArrowDown } from "react-icons/fi";
 import BrakeDisc from "../components/BrakeDisc";
 import CarDrive from "../components/CarDrive";
-import CountUp from "../components/CountUp";
+import Decode from "../components/Decode";
 import DreamGarage from "../components/DreamGarage";
 import Headlights from "../components/Headlights";
 import LetterReveal from "../components/LetterReveal";
 import LightBar from "../components/LightBar";
 import Magnetic from "../components/Magnetic";
+import Odometer from "../components/Odometer";
 import PortraitZoom from "../components/PortraitZoom";
 import RearEnd from "../components/RearEnd";
 import Reveal from "../components/Reveal";
+import RevButton from "../components/RevButton";
 import ScrollText from "../components/ScrollText";
 import Showcase from "../components/Showcase";
 import StackCards from "../components/StackCards";
 import Tachometer from "../components/Tachometer";
 import TerminalLine from "../components/TerminalLine";
+import TimingTower from "../components/TimingTower";
 import { currentWork } from "../data/experiences";
 import { projects } from "../data/projects";
 import { SITE } from "../data/siteConfig";
@@ -40,36 +43,48 @@ const rise = (delay) => ({
 function Hero() {
   const ref = useRef(null);
   const reduced = useReducedMotion();
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start start", "end start"],
+  });
   const scale = useTransform(scrollYProgress, [0, 0.6], [1, 0.94]);
   const opacity = useTransform(scrollYProgress, [0, 0.55], [1, 0]);
+  const throttle = useMotionValue(0);
 
   return (
     <section ref={ref} className="hero">
       <div className="hero-pin">
-        <motion.div className="container hero-grid" style={reduced ? undefined : { scale, opacity }}>
-          <div className="hero-copy">
-            <TerminalLine prompt="nirupam@riskgrid:~$" command="./ignition --mode=sport" delay={300} />
-            <LetterReveal text={SITE.name} delay={0.9} />
-            <motion.p className="hero-lead" {...rise(1.5)}>
-              {SITE.role} at {SITE.company}. I engineer access control, backend services and cloud infrastructure, built
-              to hold up at full throttle.
-            </motion.p>
-            <motion.div className="actions" {...rise(1.65)}>
-              <Magnetic>
-                <Link to="/projects" className="btn btn-primary">
-                  View the garage
-                </Link>
-              </Magnetic>
-              <a href={SITE.resume} target="_blank" rel="noreferrer" className="btn-text">
-                Resume <FiArrowDown />
-              </a>
-            </motion.div>
+        <div className="road3d" aria-hidden="true">
+          <div className="road3d-plane">
+            <div className="road3d-dash" />
           </div>
-          <motion.div {...rise(0.3)}>
-            <Tachometer progress={scrollYProgress} />
+        </div>
+        <div className="hero-shake">
+          <motion.div className="container hero-grid" style={reduced ? undefined : { scale, opacity }}>
+            <div className="hero-copy">
+              <TerminalLine prompt="nirupam@riskgrid:~$" command="./ignition --mode=sport" delay={300} />
+              <LetterReveal text={SITE.name} delay={0.9} />
+              <motion.p className="hero-lead" {...rise(1.5)}>
+                {SITE.role} at {SITE.company}. I engineer access control, backend services and cloud infrastructure,
+                built to hold up at full throttle.
+              </motion.p>
+              <motion.div className="actions" {...rise(1.65)}>
+                <Magnetic>
+                  <Link to="/projects" className="btn btn-primary">
+                    View the garage
+                  </Link>
+                </Magnetic>
+                <a href={SITE.resume} target="_blank" rel="noreferrer" className="btn-text">
+                  Resume <FiArrowDown />
+                </a>
+              </motion.div>
+            </div>
+            <motion.div className="hero-gauge" {...rise(0.3)}>
+              <Tachometer progress={scrollYProgress} throttle={throttle} />
+              <RevButton throttle={throttle} />
+            </motion.div>
           </motion.div>
-        </motion.div>
+        </div>
         <LightBar />
       </div>
     </section>
@@ -98,7 +113,9 @@ export default function Home() {
         <div className="container">
           <Reveal className="section-head">
             <p className="eyebrow">// now at {SITE.company}</p>
-            <h2>The build sheet.</h2>
+            <h2>
+              <Decode text="The build sheet." />
+            </h2>
           </Reveal>
           <StackCards items={currentWork} />
         </div>
@@ -109,7 +126,9 @@ export default function Home() {
           <Reveal className="section-head section-head-row">
             <div>
               <p className="eyebrow">// measured, not claimed</p>
-              <h2>Performance figures.</h2>
+              <h2>
+                <Decode text="Performance figures." />
+              </h2>
             </div>
             <BrakeDisc />
           </Reveal>
@@ -117,13 +136,30 @@ export default function Home() {
             {FIGURES.map((f, i) => (
               <Reveal key={f.label} className="figure spot" delay={i * 0.08}>
                 <p className="stat-value">
-                  <CountUp value={f.value} suffix={f.suffix} />
+                  <Odometer value={f.value} suffix={f.suffix} />
                   <small>{f.unit}</small>
                 </p>
                 <p className="stat-label">{f.label}</p>
               </Reveal>
             ))}
           </div>
+        </div>
+      </section>
+
+      <section className="section">
+        <div className="container">
+          <Reveal className="section-head section-head-row">
+            <div>
+              <p className="eyebrow">// live classification</p>
+              <h2>
+                <Decode text="Timing tower." />
+              </h2>
+            </div>
+            <Link to="/experience" className="btn-text">
+              Full track record <FiArrowRight />
+            </Link>
+          </Reveal>
+          <TimingTower />
         </div>
       </section>
 
@@ -134,7 +170,9 @@ export default function Home() {
           <Reveal className="section-head section-head-row">
             <div>
               <p className="eyebrow">// the garage</p>
-              <h2>Things I've built.</h2>
+              <h2>
+                <Decode text="Things I've built." />
+              </h2>
             </div>
             <Link to="/projects" className="btn-text">
               All projects <FiArrowRight />

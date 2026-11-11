@@ -2,6 +2,7 @@ import { useCallback, useEffect, useLayoutEffect, useState } from "react";
 import { flushSync } from "react-dom";
 import { Outlet, useLocation } from "react-router-dom";
 import { AnimatePresence, MotionConfig } from "framer-motion";
+import CarCursor from "../components/CarCursor";
 import CommandPalette from "../components/CommandPalette";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
@@ -61,6 +62,7 @@ export default function RootLayout() {
       <Telemetry />
       <AnimatePresence>{!started && <StartGate onDone={onStarted} />}</AnimatePresence>
       <Road />
+      <CarCursor />
       {started && (
         <>
           <main id="main">

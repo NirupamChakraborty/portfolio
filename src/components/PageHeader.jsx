@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import Decode from "./Decode";
 import { EASE } from "../lib/motion";
 import usePageTitle from "../lib/usePageTitle";
 
@@ -13,7 +14,9 @@ export default function PageHeader({ eyebrow, title, children }) {
       transition={{ duration: 1, ease: EASE, delay: 0.05 }}
     >
       <p className="eyebrow">// {eyebrow.toLowerCase()}</p>
-      <h1 className="page-title">{title}</h1>
+      <h1 className="page-title">
+        <Decode text={title} />
+      </h1>
       {children && <p className="page-lead">{children}</p>}
     </motion.header>
   );

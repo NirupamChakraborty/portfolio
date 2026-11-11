@@ -2453,3 +2453,336 @@ h2,
 .section-head-row > div {
   min-width: 0;
 }
+
+/* Ultimate layer: 3D road, rev button, car cursor, timing tower, odometer */
+.hero-shake {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+}
+
+.is-revving .hero-shake {
+  animation: shake 0.09s linear infinite;
+}
+
+@keyframes shake {
+  25% {
+    transform: translate(1.5px, -1px);
+  }
+  50% {
+    transform: translate(-1px, 1.5px);
+  }
+  75% {
+    transform: translate(-1.5px, -0.5px);
+  }
+}
+
+.road3d {
+  position: absolute;
+  inset: auto 0 0;
+  height: 58%;
+  overflow: hidden;
+  perspective: 360px;
+  perspective-origin: 50% 0;
+  opacity: 0.5;
+  -webkit-mask: linear-gradient(transparent, #000 55%);
+  mask: linear-gradient(transparent, #000 55%);
+  pointer-events: none;
+}
+
+.road3d-plane {
+  position: absolute;
+  bottom: -10%;
+  left: 50%;
+  width: 560px;
+  height: 260%;
+  margin-left: -280px;
+  overflow: hidden;
+  transform: rotateX(74deg);
+  transform-origin: 50% 100%;
+  background:
+    linear-gradient(90deg, var(--accent) 0 5px, transparent 5px calc(100% - 5px), var(--accent) calc(100% - 5px)),
+    linear-gradient(90deg, transparent 18%, var(--surface) 18% 82%, transparent 82%);
+}
+
+.road3d-dash {
+  position: absolute;
+  inset: -200px auto 0 50%;
+  width: 10px;
+  margin-left: -5px;
+  background: repeating-linear-gradient(var(--text) 0 90px, transparent 90px 200px);
+  animation: road-rush 0.42s linear infinite;
+  will-change: transform;
+}
+
+.is-revving .road3d-dash {
+  animation-duration: 0.14s;
+}
+
+@keyframes road-rush {
+  to {
+    transform: translateY(200px);
+  }
+}
+
+.hero-gauge {
+  display: grid;
+  justify-items: center;
+  gap: 8px;
+}
+
+.rev-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  padding: 10px 18px;
+  border: 1px solid var(--hairline);
+  border-radius: 4px;
+  background: var(--surface);
+  color: var(--text);
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.rev-btn-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+.rev-btn.is-revving {
+  border-color: var(--accent);
+  box-shadow: 0 0 22px rgba(225, 6, 0, 0.45);
+}
+
+.rev-btn.is-revving .rev-btn-dot {
+  animation: blink 0.18s steps(2) infinite;
+}
+
+.rev-btn.is-launch {
+  border-color: #4db8ff;
+  box-shadow: 0 0 26px rgba(77, 184, 255, 0.6);
+  color: #4db8ff;
+}
+
+.skid-canvas {
+  position: fixed;
+  inset: 0;
+  z-index: 44;
+  pointer-events: none;
+}
+
+.car-cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 85;
+  width: 28px;
+  height: 16px;
+  opacity: 0;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.6));
+  transition: opacity 0.3s;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.car-cursor svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.tower {
+  max-width: 820px;
+  border: 1px solid var(--hairline);
+  background: var(--surface);
+  font-family: var(--mono);
+  clip-path: polygon(0 0, calc(100% - 22px) 0, 100% 22px, 100% 100%, 0 100%);
+}
+
+.tower-head,
+.tower-row {
+  display: grid;
+  grid-template-columns: 52px 64px 1fr auto;
+  align-items: center;
+  gap: 14px;
+  padding-inline: 16px;
+}
+
+.tower-head {
+  grid-template-columns: 52px 1fr auto;
+  padding-block: 10px;
+  border-bottom: 1px solid var(--hairline);
+  color: var(--muted);
+  font-size: 0.66rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.tower ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tower li + li {
+  border-top: 1px solid var(--hairline);
+}
+
+.tower-row {
+  position: relative;
+  padding-block: 16px;
+  transition: background 0.25s;
+}
+
+.tower-row::before {
+  content: "";
+  position: absolute;
+  inset: 8px auto 8px 0;
+  width: 4px;
+  background: var(--team);
+}
+
+.tower-row:hover {
+  background: var(--hairline);
+}
+
+.tower-pos {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  background: var(--text);
+  color: var(--bg);
+  font-family: var(--display);
+  font-size: 1.05rem;
+  font-stretch: 125%;
+  font-style: italic;
+  font-weight: 700;
+}
+
+.tower-code {
+  color: var(--team);
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.tower-name {
+  display: grid;
+  min-width: 0;
+}
+
+.tower-name strong {
+  overflow: hidden;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.tower-name small,
+.tower-status small {
+  color: var(--muted);
+  font-size: 0.7rem;
+}
+
+.tower-status {
+  display: grid;
+  justify-items: end;
+  color: var(--muted);
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-align: right;
+  text-transform: uppercase;
+}
+
+.tower-status small {
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.tower-status.is-live {
+  color: #30d158;
+}
+
+.tower-status.is-live::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  margin-bottom: 4px;
+  border-radius: 50%;
+  background: #30d158;
+  animation: pulse 2.4s var(--ease) infinite;
+}
+
+.odo {
+  display: inline-flex;
+}
+
+.odo-col {
+  display: inline-block;
+  height: 1.05em;
+  overflow: hidden;
+}
+
+.odo-strip {
+  display: flex;
+  flex-direction: column;
+}
+
+.odo-strip span {
+  height: 1.05em;
+  line-height: 1.05em;
+}
+
+@media (max-width: 720px) {
+  .tower-head,
+  .tower-row {
+    grid-template-columns: 40px 1fr auto;
+    gap: 10px;
+    padding-inline: 12px;
+  }
+
+  .tower-head {
+    grid-template-columns: 40px 1fr auto;
+  }
+
+  .tower-code {
+    display: none;
+  }
+
+  .tower-pos {
+    width: 30px;
+    height: 30px;
+  }
+
+  .tower-status small {
+    display: none;
+  }
+
+  .road3d {
+    opacity: 0.3;
+  }
+
+  .road3d-plane {
+    width: 420px;
+    margin-left: -210px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .road3d-dash,
+  .is-revving .hero-shake {
+    animation: none;
+  }
+}
